@@ -77,8 +77,8 @@ function setSetting(string $key, string $value): void {
 // -----------------------------------------------
 // Helper: Sanitize output
 // -----------------------------------------------
-function e(string $s): string {
-    return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+function e(?string $s): string {
+    return htmlspecialchars($s ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 // -----------------------------------------------

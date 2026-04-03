@@ -149,8 +149,15 @@ try {
         // Distinct values for filter dropdowns
         // -----------------------------------------------
         case 'filter_options':
-            $sources   = $db->query("SELECT DISTINCT source FROM alerts ORDER BY source")->fetchAll(PDO::FETCH_COLUMN);
-            $suppliers = $db->query("SELECT DISTINCT supplier_name FROM alerts ORDER BY supplier_name")->fetchAll(PDO::FETCH_COLUMN);
+            $sources = $db->query("SELECT DISTINCT source FROM alerts ORDER BY source")->fetchAll(PDO::FETCH_COLUMN);
+            $fromAlerts = $db->query(
+                "SELECT DISTINCT supplier_name FROM alerts WHERE supplier_name IS NOT NULL AND TRIM(supplier_name) <> '' ORDER BY supplier_name"
+            )->fetchAll(PDO::FETCH_COLUMN);
+            $fromSuppliers = $db->query(
+                "SELECT name FROM suppliers WHERE active = 1 ORDER BY name"
+            )->fetchAll(PDO::FETCH_COLUMN);
+            $suppliers = array_values(array_unique(array_merge($fromSuppliers, $fromAlerts)));
+            sort($suppliers);
             echo json_encode([
                 'success'   => true,
                 'sources'   => $sources,

@@ -131,6 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['toggle_supplier'])) {
             try {
                 $db->prepare('UPDATE suppliers SET active=NOT active WHERE id=?')->execute([(int)$_POST['id']]);
+                $message = 'Supplier status updated.';
             } catch (PDOException $e) {
                 error_log('Supplier toggle error: ' . $e->getMessage());
                 $message = 'ERROR: Could not update supplier status. ' . $e->getMessage();
@@ -424,7 +425,7 @@ elseif ($section === 'suppliers'):
     <td><small><?= e($s['aliases']) ?></small></td>
     <td><?= e($s['category']) ?></td>
     <td><?= e($s['country']) ?></td>
-    <td><span class="badge crit-<?= strtolower($s['criticality']) ?>"><?= e($s['criticality']) ?></span></td>
+    <td><span class="badge crit-<?= strtolower((string)($s['criticality'] ?? 'Medium')) ?>"><?= e($s['criticality'] ?? 'Medium') ?></span></td>
     <td><?= $s['active']?'<span class="status-on">Active</span>':'<span class="status-off">Inactive</span>' ?></td>
     <td>
       <form method="POST" action="?section=suppliers" style="display:inline"><input type="hidden" name="section" value="suppliers"><input type="hidden" name="id" value="<?= $s['id'] ?>"><input type="hidden" name="toggle_supplier" value="1"><button type="submit" class="btn-sm"><?= $s['active']?'Disable':'Enable' ?></button></form>
