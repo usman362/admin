@@ -1,0 +1,14 @@
+# admin/.htaccess
+# Optional: Restrict admin panel to specific IPs
+# Uncomment and edit the lines below to enable IP whitelist:
+
+# <RequireAny>
+#     Require ip 192.168.1.0/24
+#     Require ip 203.0.113.50
+# </RequireAny>
+
+# Or add HTTP Basic Auth as a second layer:
+# AuthType Basic
+# AuthName "Admin Area"
+# AuthUserFile /path/to/.htpasswd
+# Require valid-user
